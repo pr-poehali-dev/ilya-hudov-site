@@ -13,10 +13,17 @@ interface Track {
 
 interface MusicPlayerProps {
   tracks: Track[];
+  initialTrack?: Track;
 }
 
-export default function MusicPlayer({ tracks }: MusicPlayerProps) {
-  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
+export default function MusicPlayer({ tracks, initialTrack }: MusicPlayerProps) {
+  const [currentTrack, setCurrentTrack] = useState<Track | null>(initialTrack || null);
+
+  useEffect(() => {
+    if (initialTrack && !currentTrack) {
+      playTrack(initialTrack);
+    }
+  }, [initialTrack]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);

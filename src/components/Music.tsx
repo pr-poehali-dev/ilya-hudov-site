@@ -15,7 +15,8 @@ interface Track {
 }
 
 export default function Music() {
-  const [currentPlayer, setCurrentPlayer] = useState<Track[]>([]);
+  const [playerVisible, setPlayerVisible] = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
 
   const tracks: Track[] = [
     {
@@ -69,7 +70,8 @@ export default function Music() {
   ];
 
   const playTrack = (track: Track) => {
-    setCurrentPlayer(tracks);
+    setSelectedTrack(track);
+    setPlayerVisible(true);
   };
 
   return (
@@ -146,7 +148,9 @@ export default function Music() {
         </div>
       </section>
       
-      {currentPlayer.length > 0 && <MusicPlayer tracks={currentPlayer} />}
+      {playerVisible && selectedTrack && (
+        <MusicPlayer tracks={tracks} initialTrack={selectedTrack} />
+      )}
     </>
   );
 }
